@@ -1,8 +1,10 @@
 import { defineConfig } from 'vite';
 
-const repositoryName = process.env.GITHUB_REPOSITORY?.split('/')[1];
-const base = process.env.BASE_PATH ?? (repositoryName ? `/${repositoryName}/` : '/');
+export default defineConfig(({ command }) => {
+  const repositoryName = process.env.GITHUB_REPOSITORY?.split('/')[1] ?? 'html_progress_report';
+  const base = command === 'serve' ? '/' : (process.env.BASE_PATH ?? `/${repositoryName}/`);
 
-export default defineConfig({
-  base,
+  return {
+    base,
+  };
 });

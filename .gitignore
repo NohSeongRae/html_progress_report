@@ -1,7 +1,11 @@
 node_modules/
+dist/
 figs/
+pdf_pages_fast/
+26_05_24/
 
 .env
 .env.*
 *.log
+*.pdf
 Thumbs.db

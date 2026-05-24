@@ -1,0 +1,443 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lab Meeting Progress Report</title>
+    <script type="module" crossorigin src="/assets/index-BClBRvun.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-BzXbpiQA.css">
+  </head>
+  <body>
+    <div class="deck-shell">
+      <header class="deck-topbar">
+        <div class="deck-brand">
+          <span class="brand-mark"></span>
+          Lab Meeting Progress
+        </div>
+        <div class="deck-meta">
+          <span id="slideTitleMini">BMVC 2026</span>
+          <span id="slideCounter">1 / 8</span>
+        </div>
+      </header>
+
+      <main id="deck" class="deck" aria-live="polite">
+        <section class="slide active" data-title="BMVC 2026">
+          <div class="slide-kicker">BMVC 2026 · w/ 이륜하</div>
+          <div class="preference-slide">
+            <div class="preference-title">
+              <h1>Preference Scene</h1>
+              <p class="one-line">Text query를 user persona와 hidden preference에 맞춰 indoor scene으로 합성합니다.</p>
+            </div>
+
+            <div class="persona-query-flow">
+              <div class="persona-user">
+                <div class="avatar-head"></div>
+                <div class="avatar-body"></div>
+                <div class="persona-card">
+                  <span>Persona</span>
+                  <b>cozy, book-heavy, low clutter</b>
+                </div>
+              </div>
+              <div class="query-beam">
+                <i data-lucide="message-square-text"></i>
+                <span>"Make a reading-friendly living room"</span>
+              </div>
+              <div class="agent-node">
+                <i data-lucide="bot"></i>
+                <b>LLM Agent</b>
+                <span>scene planner + reward learner</span>
+              </div>
+            </div>
+
+            <div class="preference-triptych">
+              <div class="pref-panel planning-panel">
+                <div class="panel-label">1 · Planning</div>
+                <div class="mcts-planner-visual" aria-label="MCTS planner expands indoor scene branches with a learned reward function">
+                  <div class="mcts-planner-top">
+                    <div class="mcts-planner-agent">
+                      <i data-lucide="bot"></i>
+                      <b>Planner Agent</b>
+                      <span>LLM + MCTS</span>
+                    </div>
+                    <div class="reward-function-chip">
+                      <i data-lucide="gauge"></i>
+                      <span>reward ≈ hidden preference</span>
+                    </div>
+                  </div>
+
+                  <div class="mcts-tree-viz" aria-hidden="true">
+                    <svg class="mcts-edges" viewBox="0 0 420 164" preserveAspectRatio="none">
+                      <line x1="210" y1="24" x2="88" y2="82"></line>
+                      <line x1="210" y1="24" x2="210" y2="82"></line>
+                      <line x1="210" y1="24" x2="332" y2="82"></line>
+                      <line x1="88" y1="82" x2="48" y2="144"></line>
+                      <line x1="88" y1="82" x2="126" y2="144"></line>
+                      <line x1="210" y1="82" x2="174" y2="144"></line>
+                      <line x1="210" y1="82" x2="248" y2="144"></line>
+                      <line x1="332" y1="82" x2="294" y2="144"></line>
+                      <line x1="332" y1="82" x2="372" y2="144"></line>
+                    </svg>
+                    <span class="mcts-node root"><i data-lucide="home"></i></span>
+                    <span class="mcts-node level-one a"></span>
+                    <span class="mcts-node level-one b"></span>
+                    <span class="mcts-node level-one c"></span>
+                    <span class="mcts-node leaf l1"></span>
+                    <span class="mcts-node leaf l2"></span>
+                    <span class="mcts-node leaf l3"></span>
+                    <span class="mcts-node leaf l4"></span>
+                    <span class="mcts-node leaf l5"></span>
+                    <span class="mcts-node leaf l6"></span>
+                  </div>
+
+                  <div class="mcts-branch-scenes" aria-hidden="true">
+                    <div class="branch-room cozy">
+                      <span class="room-sofa"></span>
+                      <span class="room-table"></span>
+                      <span class="room-rug"></span>
+                      <span class="room-shelf"></span>
+                      <b>book-heavy</b>
+                    </div>
+                    <div class="branch-room minimal">
+                      <span class="room-sofa"></span>
+                      <span class="room-table"></span>
+                      <span class="room-plant"></span>
+                      <b>minimal</b>
+                    </div>
+                    <div class="branch-room bright">
+                      <span class="room-sofa"></span>
+                      <span class="room-table"></span>
+                      <span class="room-rug"></span>
+                      <span class="room-lamp"></span>
+                      <b>colorful</b>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="pref-panel choice-panel">
+                <div class="panel-label">2 · User choice</div>
+                <div class="scene-choice-grid">
+                  <div class="scene-mini scene-left">
+                    <span class="sofa-mini"></span>
+                    <span class="lamp-mini"></span>
+                    <span class="book-mini one"></span>
+                    <span class="book-mini two"></span>
+                    <b>Scene A</b>
+                  </div>
+                  <div class="scene-mini scene-right selected">
+                    <span class="sofa-mini wide"></span>
+                    <span class="rug-mini"></span>
+                    <span class="plant-mini"></span>
+                    <span class="book-mini three"></span>
+                    <b>Scene B</b>
+                    <strong>chosen</strong>
+                  </div>
+                </div>
+                <div class="choice-user">
+                  <i data-lucide="mouse-pointer-click"></i>
+                  <span>User selects the better fit</span>
+                </div>
+              </div>
+
+              <div class="pref-panel update-panel">
+                <div class="panel-label">3 · Reward update</div>
+                <div class="reward-update-visual">
+                  <div class="preference-bars before">
+                    <span style="height: 36%"></span>
+                    <span style="height: 54%"></span>
+                    <span style="height: 42%"></span>
+                  </div>
+                  <div class="update-arrow"><i data-lucide="repeat-2"></i></div>
+                  <div class="preference-bars after">
+                    <span style="height: 48%"></span>
+                    <span style="height: 76%"></span>
+                    <span style="height: 62%"></span>
+                  </div>
+                </div>
+                <div class="update-note">
+                  <b>Choice signal</b>
+                  <span>Scene B preference를 다음 MCTS reward에 반영</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="slide" data-title="BMVC Progress">
+          <div class="slide-kicker">BMVC 2026 · Progress</div>
+          <div class="slide-title-row">
+            <h1>Milestone Flow</h1>
+            <div class="status-pills">
+              <span class="done">완료 3</span>
+              <span class="active">진행 2</span>
+              <span class="pending">예정 2</span>
+            </div>
+          </div>
+
+          <div class="milestone-map eight">
+            <div class="milestone muted"><b>Project setup</b><span>baseline ready</span></div>
+            <div class="milestone done"><b>Ideation</b><span>problem framing</span></div>
+            <div class="milestone done"><b>Framework</b><span>구현 완료</span></div>
+            <div class="milestone done"><b>BMVC registration</b><span>track secured</span></div>
+            <div class="milestone active"><b>Experiment</b><span>preference runs</span></div>
+            <div class="milestone active"><b>Writing</b><span>method draft</span></div>
+            <div class="milestone pending"><b>User study</b><span>human validation</span></div>
+            <div class="milestone pending"><b>Supplementary</b><span>extra protocol</span></div>
+          </div>
+
+          <div class="progress-board no-chart">
+            <div class="focus-card">
+              <span class="mini-label">Next evidence</span>
+              <h2>Does preference learning converge?</h2>
+              <p>반복 선택 후 reward가 user preference를 더 잘 근사하는지, scene quality와 diversity가 같이 유지되는지 확인합니다.</p>
+              <div class="chip-row">
+                <span>MCTS reward ablation</span>
+                <span>Choice efficiency</span>
+                <span>Scene diversity</span>
+              </div>
+            </div>
+            <div class="evidence-strip">
+              <div><b>Input</b><span>persona + text query</span></div>
+              <div><b>Signal</b><span>scene A/B choice</span></div>
+              <div><b>Metric</b><span>alignment per round</span></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="slide" data-title="ICLR Robot">
+          <div class="slide-kicker">ICLR 2027 · w/ 권정연</div>
+          <div class="robot-hero">
+            <div class="hero-copy compact">
+              <h1>Occlusion-Robust Robot Failure Detection</h1>
+              <p class="one-line">원통을 잡은 손가락이 물체에 가려질 때, reconstruction으로 보이지 않는 grasp evidence를 복원합니다.</p>
+            </div>
+
+            <div class="robot-showcase grasp-showcase">
+              <div class="robot-demo">
+                <div class="demo-title">Occluded grasp input</div>
+                <figure class="grasp-image-card">
+                  <img src="/assets/slide_3_left-Cm0qhUgx.png" alt="Robot grasp input where the cylinder occludes most fingers" />
+                  <figcaption>fingers hidden by cylinder · uncertain contact</figcaption>
+                </figure>
+              </div>
+              <div class="demo-arrow"><i data-lucide="arrow-right"></i></div>
+              <div class="robot-demo">
+                <div class="demo-title">Reconstructed grasp evidence</div>
+                <figure class="grasp-image-card">
+                  <img src="/assets/slide_3_right-BlN6t8R-.png" alt="Robot grasp reconstruction showing inferred hidden fingers through the cylinder" />
+                  <figcaption>reconstructed fingers · detector-visible evidence</figcaption>
+                </figure>
+              </div>
+            </div>
+          </div>
+
+          <div class="robot-bottom">
+            <div class="chart-panel slim">
+              <canvas id="occlusionChart" aria-label="Occlusion robustness hypothesis chart"></canvas>
+            </div>
+            <div class="method-cards">
+              <div><i data-lucide="eye-off"></i><b>Observation gap</b><span>엄지를 제외한 finger contact가 원통 뒤에 숨어 있습니다.</span></div>
+              <div><i data-lucide="sparkles"></i><b>Reconstruction</b><span>보이지 않는 손가락과 접촉점을 이미지 위에 복원합니다.</span></div>
+              <div><i data-lucide="scan-search"></i><b>Detector input</b><span>복원된 keypoint를 failure detection 근거로 사용합니다.</span></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="slide" data-title="ICLR Robot Progress">
+          <div class="slide-kicker">ICLR 2027 · Progress</div>
+          <div class="slide-title-row">
+            <h1>Early Stage Plan</h1>
+            <div class="due-box">
+              <span>Submission due</span>
+              <strong>공식 미공개</strong>
+              <small>working estimate: 2026년 9월 말</small>
+            </div>
+          </div>
+
+          <div class="milestone-map six">
+            <div class="milestone active"><b>Ideation</b><span>hypothesis</span></div>
+            <div class="milestone active"><b>논문 조사</b><span>LVLM + robot FD</span></div>
+            <div class="milestone pending"><b>Occlusion 실험 설계</b><span>severity axis</span></div>
+            <div class="milestone pending"><b>Reconstruction module</b><span>inpaint protocol</span></div>
+            <div class="milestone pending"><b>Evaluation</b><span>FD under occlusion</span></div>
+            <div class="milestone pending"><b>Writing</b><span>claim + evidence</span></div>
+          </div>
+
+          <div class="question-board">
+            <div><i data-lucide="circle-help"></i><b>What to vary?</b><span>task, viewpoint, occluder type, severity를 분리해 측정해야 합니다.</span></div>
+            <div><i data-lucide="flask-conical"></i><b>First test</b><span>동일 state에서 occluder만 추가해 detector decision 변화를 비교합니다.</span></div>
+            <div><i data-lucide="image-plus"></i><b>Module risk</b><span>Inpainting hallucination을 keypoint evidence 검증으로 제어합니다.</span></div>
+          </div>
+        </section>
+
+        <section class="slide" data-title="ICLR SimuHome">
+          <div class="slide-kicker">ICLR 2027 · w/ 김병민님</div>
+          <div class="home-hero">
+            <div class="hero-copy compact">
+              <h1>Small LLMs for SimuHome Agents</h1>
+              <p class="one-line">작은 LLM에게 모든 일을 시키지 않고, 쉬운 task를 tool로 먼저 처리한 뒤 reasoning만 남깁니다.</p>
+              <div class="failure-trio">
+                <div><span>Too much context</span><b>hallucination</b></div>
+                <div><span>Complex output</span><b>schema violation</b></div>
+                <div><span>Tool before LLM</span><b>simpler planning</b></div>
+              </div>
+            </div>
+
+            <div class="agent-comparison-panel">
+              <div class="agent-state overloaded">
+                <div class="agent-face strained"><i data-lucide="bot"></i></div>
+                <div class="task-cloud">
+                  <span>parse query</span>
+                  <span>track state</span>
+                  <span>validate schema</span>
+                  <span>find affordance</span>
+                  <span>plan actions</span>
+                  <span>resolve room</span>
+                  <span>check inventory</span>
+                  <span>maintain memory</span>
+                  <span>obey constraints</span>
+                  <span>output JSON</span>
+                </div>
+                <b>One LLM handles everything</b>
+              </div>
+              <div class="agent-state assisted">
+                <div class="tool-checks">
+                  <span>state retrieval ✓</span>
+                  <span>constraint parser ✓</span>
+                  <span>affordance filter ✓</span>
+                  <span>schema guard ✓</span>
+                  <span>inventory lookup ✓</span>
+                  <span>room grounding ✓</span>
+                  <span>memory summary ✓</span>
+                </div>
+                <div class="agent-face happy"><i data-lucide="bot"></i></div>
+                <div class="remaining-stack">
+                  <span>reason next action</span>
+                  <span>rank alternatives</span>
+                  <span>emit plan</span>
+                </div>
+                <b>Tools clear the easy work first</b>
+              </div>
+            </div>
+          </div>
+
+          <div class="loop-diagram four">
+            <div class="loop-step"><i data-lucide="message-circle"></i><span>User query</span></div>
+            <div class="loop-arrow"></div>
+            <div class="loop-step accent"><i data-lucide="wrench"></i><span>Problem simplifiers</span></div>
+            <div class="loop-arrow"></div>
+            <div class="loop-step"><i data-lucide="brain"></i><span>Reasoning core</span></div>
+            <div class="loop-arrow"></div>
+            <div class="loop-step"><i data-lucide="list-checks"></i><span>Structured action</span></div>
+          </div>
+        </section>
+
+        <section class="slide" data-title="ICLR SimuHome Progress">
+          <div class="slide-kicker">ICLR 2027 · Progress</div>
+          <div class="slide-title-row">
+            <h1>Research Track</h1>
+            <div class="due-box">
+              <span>Submission due</span>
+              <strong>공식 미공개</strong>
+              <small>working estimate: 2026년 9월 말</small>
+            </div>
+          </div>
+
+          <div class="milestone-map six">
+            <div class="milestone active"><b>Ideation</b><span>small LLM bottleneck</span></div>
+            <div class="milestone active"><b>논문 조사</b><span>SimuHome + tools</span></div>
+            <div class="milestone pending"><b>초기 실험 설계</b><span>TBD</span></div>
+            <div class="milestone pending"><b>Tool decomposition</b><span>parser + validator</span></div>
+            <div class="milestone pending"><b>Benchmark run</b><span>speed + success</span></div>
+            <div class="milestone pending"><b>Writing</b><span>analysis</span></div>
+          </div>
+
+          <div class="metric-grid">
+            <div><i data-lucide="timer"></i><b>Speed</b><span>작은 LLM latency를 task success로 연결</span></div>
+            <div><i data-lucide="target"></i><b>Accuracy</b><span>smart-home constraint 누락 감소</span></div>
+            <div><i data-lucide="braces"></i><b>Validity</b><span>output schema violation 감소</span></div>
+            <div><i data-lucide="workflow"></i><b>Decomposition</b><span>reasoning이 필요한 부분만 LLM에 전달</span></div>
+          </div>
+        </section>
+
+        <section class="slide" data-title="Personal ICLR">
+          <div class="slide-kicker">ICLR 2027 · 개인 논문</div>
+          <div class="cube-hero">
+            <div class="hero-copy compact">
+              <h1>Situation Awareness in Partially Observable Games</h1>
+              <p class="one-line">풀 수 없는 puzzle에서 LLM agent가 언제, 어떤 근거로 불가능성을 제기하는지 측정합니다.</p>
+              <div class="game-rules">
+                <div><b>Observe</b><span>한 번에 세 면만 관찰</span></div>
+                <div><b>Act</b><span>회전, 조작, 추가 관찰</span></div>
+                <div><b>Decide</b><span>solve or raise issue within T</span></div>
+                <div><b>Explain</b><span>불가능한 이유를 제시</span></div>
+              </div>
+            </div>
+
+            <div class="visual-stage cube-stage">
+              <canvas id="rubikCanvas" class="three-canvas" aria-label="Interactive partially observable impossible cube visualization"></canvas>
+              <div class="cube-overlay">
+                <span>drag with mouse</span>
+                <strong>mixed cube</strong>
+              </div>
+              <div class="cube-counts">
+                <span class="red-count">red 10</span>
+                <span class="green-count">green 8</span>
+                <span>others balanced</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="agent-loop">
+            <div><span>memory</span><b>observations + actions</b></div>
+            <div><span>horizon</span><b>T steps remaining</b></div>
+            <div><span>risk</span><b>false issue penalty</b></div>
+            <div><span>behavior</span><b>honest vs fabricated evidence</b></div>
+          </div>
+        </section>
+
+        <section class="slide" data-title="Personal ICLR Plan">
+          <div class="slide-kicker">ICLR 2027 · 개인 논문</div>
+          <div class="slide-title-row">
+            <h1>Benchmark Questions</h1>
+            <div class="status-pills">
+              <span class="active">Ideation</span>
+              <span class="pending">천천히 준비</span>
+            </div>
+          </div>
+
+          <div class="benchmark-board">
+            <div><i data-lucide="rotate-cw"></i><b>Impossible?</b><span>색 개수 불일치나 덧칠된 sticker 증거를 추적할 수 있을까요?</span></div>
+            <div><i data-lucide="alert-triangle"></i><b>Honest issue?</b><span>T가 부족할 때 근거를 꾸며 issue를 제기하지는 않을까요?</span></div>
+            <div><i data-lucide="cpu"></i><b>Model gap?</b><span>최신 API LLM과 2B local LLM의 latency, evidence, false issue 차이는?</span></div>
+          </div>
+
+          <div class="milestone-map five">
+            <div class="milestone active"><b>Ideation</b><span>current stage</span></div>
+            <div class="milestone pending"><b>Game formalization</b><span>Rubik, jigsaw, balance</span></div>
+            <div class="milestone pending"><b>Simulator</b><span>observation + action API</span></div>
+            <div class="milestone pending"><b>Metric design</b><span>latency + evidence</span></div>
+            <div class="milestone pending"><b>Paper draft</b><span>slow burn</span></div>
+          </div>
+        </section>
+      </main>
+
+      <nav class="deck-controls" aria-label="Slide controls">
+        <button id="homeSlide" class="icon-button" type="button" aria-label="첫 슬라이드" title="첫 슬라이드">
+          <i data-lucide="home"></i>
+        </button>
+        <button id="prevSlide" class="icon-button" type="button" aria-label="이전 슬라이드" title="이전 슬라이드">
+          <i data-lucide="chevron-left"></i>
+        </button>
+        <button id="nextSlide" class="icon-button primary" type="button" aria-label="다음 슬라이드" title="다음 슬라이드">
+          <i data-lucide="chevron-right"></i>
+        </button>
+        <button id="fullscreen" class="icon-button" type="button" aria-label="전체 화면" title="전체 화면">
+          <i data-lucide="maximize-2"></i>
+        </button>
+      </nav>
+      <div class="progress-track"><div id="progressBar"></div></div>
+    </div>
+
+  </body>
+</html>

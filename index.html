@@ -113,27 +113,39 @@
               </div>
 
               <div class="pref-panel choice-panel">
-                <div class="panel-label">2 · User choice</div>
-                <div class="scene-choice-grid">
-                  <div class="scene-mini scene-left">
-                    <span class="sofa-mini"></span>
-                    <span class="lamp-mini"></span>
-                    <span class="book-mini one"></span>
-                    <span class="book-mini two"></span>
-                    <b>Scene A</b>
+                <div class="panel-label">2 · User feedback</div>
+                <div class="mcts-result-stack" aria-label="MCTS ranked results with feedback on the best plan">
+                  <div class="mcts-result-card best-plan">
+                    <div class="result-rank">Top 1</div>
+                    <div class="result-copy">
+                      <b>Best plan</b>
+                      <span>book-heavy reading room, low clutter</span>
+                    </div>
+                    <div class="result-score">0.84</div>
                   </div>
-                  <div class="scene-mini scene-right selected">
-                    <span class="sofa-mini wide"></span>
-                    <span class="rug-mini"></span>
-                    <span class="plant-mini"></span>
-                    <span class="book-mini three"></span>
-                    <b>Scene B</b>
-                    <strong>chosen</strong>
+                  <div class="mcts-result-card">
+                    <div class="result-rank">Top 2</div>
+                    <div class="result-copy">
+                      <b>Alternative plan</b>
+                      <span>minimal layout, less storage</span>
+                    </div>
+                    <div class="result-score">0.71</div>
+                  </div>
+                  <div class="mcts-result-card">
+                    <div class="result-rank">Top 3</div>
+                    <div class="result-copy">
+                      <b>Exploration plan</b>
+                      <span>colorful layout, higher clutter</span>
+                    </div>
+                    <div class="result-score">0.63</div>
                   </div>
                 </div>
-                <div class="choice-user">
-                  <i data-lucide="mouse-pointer-click"></i>
-                  <span>User selects the better fit</span>
+                <div class="plan-feedback">
+                  <i data-lucide="message-circle"></i>
+                  <div>
+                    <b>Feedback on best plan</b>
+                    <span>책장은 유지하고, 조명은 더 따뜻하게 조정</span>
+                  </div>
                 </div>
               </div>
 
@@ -153,8 +165,8 @@
                   </div>
                 </div>
                 <div class="update-note">
-                  <b>Choice signal</b>
-                  <span>Scene B preference를 다음 MCTS reward에 반영</span>
+                  <b>Feedback signal</b>
+                  <span>Best plan에 대한 user feedback을 다음 MCTS reward에 반영</span>
                 </div>
               </div>
             </div>
@@ -166,14 +178,14 @@
           <div class="slide-title-row">
             <h1>Milestone Flow</h1>
             <div class="status-pills">
-              <span class="done">완료 3</span>
+              <span class="done">완료 4</span>
               <span class="active">진행 2</span>
               <span class="pending">예정 2</span>
             </div>
           </div>
 
           <div class="milestone-map eight">
-            <div class="milestone muted"><b>Project setup</b><span>baseline ready</span></div>
+            <div class="milestone done"><b>Project setup</b><span>baseline ready</span></div>
             <div class="milestone done"><b>Ideation</b><span>problem framing</span></div>
             <div class="milestone done"><b>Framework</b><span>구현 완료</span></div>
             <div class="milestone done"><b>BMVC registration</b><span>track secured</span></div>
@@ -184,30 +196,31 @@
           </div>
 
           <div class="progress-board no-chart">
-            <div class="focus-card">
-              <span class="mini-label">Next evidence</span>
-              <h2>Does preference learning converge?</h2>
-              <p>반복 선택 후 reward가 user preference를 더 잘 근사하는지, scene quality와 diversity가 같이 유지되는지 확인합니다.</p>
-              <div class="chip-row">
-                <span>MCTS reward ablation</span>
-                <span>Choice efficiency</span>
-                <span>Scene diversity</span>
+            <div class="focus-card metric-summary-card">
+              <span class="mini-label">Metric overview</span>
+              <h2>Preference alignment metrics</h2>
+              <p>Text level discrete Attribute Match Rate (AMR_d)를 현재 정량 지표로 사용하고, CLIP similarity score는 semantic alignment 보조 지표로 측정 예정입니다.</p>
+              <div class="metric-pair-row">
+                <span><b>AMR_d</b><small>text-level discrete Attribute Match Rate</small></span>
+                <span><b>CLIP similarity score</b><small>not measured yet</small></span>
               </div>
             </div>
-            <div class="evidence-strip">
-              <div><b>Input</b><span>persona + text query</span></div>
-              <div><b>Signal</b><span>scene A/B choice</span></div>
-              <div><b>Metric</b><span>alignment per round</span></div>
+            <div class="evidence-strip quantitative-summary">
+              <div class="experiment-label"><b>Main quantitative experiment:</b><span>AMR_d result summary</span></div>
+              <div><b>SceneWeaver</b><span>(ongoing)</span></div>
+              <div><b>Holodeck</b><span>0.675</span></div>
+              <div><b>LayoutGPT</b><span>0.7045</span></div>
+              <div class="best-result"><b>Ours</b><span>0.7833</span></div>
             </div>
           </div>
         </section>
 
         <section class="slide" data-title="ICLR Robot">
           <div class="slide-kicker">ICLR 2027 · w/ 권정연</div>
-          <div class="robot-hero">
+          <div class="robot-hero occlusion-hero">
             <div class="hero-copy compact">
               <h1>Occlusion-Robust Robot Failure Detection</h1>
-              <p class="one-line">원통을 잡은 손가락이 물체에 가려질 때, reconstruction으로 보이지 않는 grasp evidence를 복원합니다.</p>
+              <p class="one-line">Camera 상에서 가려진 물체가 LVLM 기반 failure detection model의 성능을 하락시킬 것이라는 가정입니다. Occluded part를 reconstruction해서 더 robust한 failure detection model을 만듭니다.</p>
             </div>
 
             <div class="robot-showcase grasp-showcase">
@@ -229,16 +242,6 @@
             </div>
           </div>
 
-          <div class="robot-bottom">
-            <div class="chart-panel slim">
-              <canvas id="occlusionChart" aria-label="Occlusion robustness hypothesis chart"></canvas>
-            </div>
-            <div class="method-cards">
-              <div><i data-lucide="eye-off"></i><b>Observation gap</b><span>엄지를 제외한 finger contact가 원통 뒤에 숨어 있습니다.</span></div>
-              <div><i data-lucide="sparkles"></i><b>Reconstruction</b><span>보이지 않는 손가락과 접촉점을 이미지 위에 복원합니다.</span></div>
-              <div><i data-lucide="scan-search"></i><b>Detector input</b><span>복원된 keypoint를 failure detection 근거로 사용합니다.</span></div>
-            </div>
-          </div>
         </section>
 
         <section class="slide" data-title="ICLR Robot Progress">
@@ -277,7 +280,7 @@
               <div class="failure-trio">
                 <div><span>Too much context</span><b>hallucination</b></div>
                 <div><span>Complex output</span><b>schema violation</b></div>
-                <div><span>Tool before LLM</span><b>simpler planning</b></div>
+                <div><span>Long reference docs</span><b>context burden</b></div>
               </div>
             </div>
 
@@ -367,7 +370,7 @@
               <div class="game-rules">
                 <div><b>Observe</b><span>한 번에 세 면만 관찰</span></div>
                 <div><b>Act</b><span>회전, 조작, 추가 관찰</span></div>
-                <div><b>Decide</b><span>solve or raise issue within T</span></div>
+                <div><b>Decide</b><span>해결/이슈 제기 판단</span></div>
                 <div><b>Explain</b><span>불가능한 이유를 제시</span></div>
               </div>
             </div>

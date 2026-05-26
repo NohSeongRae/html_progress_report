@@ -1,7 +1,6 @@
 import './style.css';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
-import Chart from 'chart.js/auto';
 import {
   AlertTriangle,
   ArrowRight,
@@ -25,7 +24,6 @@ import {
   Maximize2,
   MessageCircle,
   MessageSquareText,
-  MousePointerClick,
   Repeat2,
   RotateCw,
   ScanSearch,
@@ -63,7 +61,6 @@ createIcons({
     Maximize2,
     MessageCircle,
     MessageSquareText,
-    MousePointerClick,
     Repeat2,
     RotateCw,
     ScanSearch,
@@ -85,7 +82,6 @@ const titleMini = document.querySelector('#slideTitleMini');
 const counter = document.querySelector('#slideCounter');
 const progressBar = document.querySelector('#progressBar');
 let currentSlide = 0;
-const charts = [];
 
 const clampSlide = (index) => Math.max(0, Math.min(slides.length - 1, index));
 
@@ -99,7 +95,6 @@ function showSlide(index) {
   counter.textContent = `${currentSlide + 1} / ${slides.length}`;
   progressBar.style.width = `${((currentSlide + 1) / slides.length) * 100}%`;
   window.location.hash = `slide-${currentSlide + 1}`;
-  requestAnimationFrame(() => charts.forEach((chart) => chart.resize()));
 }
 
 function updateDeckScale() {
@@ -407,103 +402,14 @@ function setupRubikScene() {
   cubeGroup.rotation.set(-0.42, 0.72, 0.16);
   scene.add(cubeGroup);
 
-  const memoryArc = new THREE.Mesh(
-    new THREE.TorusGeometry(2.05, 0.018, 12, 120, Math.PI * 1.55),
-    new THREE.MeshStandardMaterial({ color: 0x14b8a6, emissive: 0x0f766e, emissiveIntensity: 0.3 })
-  );
-  memoryArc.rotation.set(Math.PI / 2.35, 0.05, -0.28);
-  scene.add(memoryArc);
-
-  const viewPlane = new THREE.Mesh(
-    new THREE.PlaneGeometry(2.5, 2.5),
-    new THREE.MeshBasicMaterial({ color: 0x38bdf8, transparent: true, opacity: 0.08, side: THREE.DoubleSide })
-  );
-  viewPlane.position.set(-0.3, 0.2, 1.6);
-  viewPlane.rotation.set(-0.5, 0.1, 0);
-  scene.add(viewPlane);
-
-  function animate(time = 0) {
+  function animate() {
     resizeRenderer(renderer, camera);
     controls.update();
-    memoryArc.rotation.z = -0.28 + time * 0.0004;
     renderer.render(scene, camera);
     requestAnimationFrame(animate);
   }
   animate();
 }
 
-function setupCharts() {
-  const labelColor = '#334155';
-  const gridColor = 'rgba(100, 116, 139, 0.18)';
-
-  const bmvcProgressCanvas = document.querySelector('#bmvcProgressChart');
-  if (bmvcProgressCanvas) {
-    charts.push(new Chart(bmvcProgressCanvas, {
-    type: 'doughnut',
-    data: {
-      labels: ['완료', '진행중', '예정'],
-      datasets: [{
-        data: [3, 2, 2],
-        backgroundColor: ['#14b8a6', '#f97316', '#cbd5e1'],
-        borderColor: '#ffffff',
-        borderWidth: 5,
-        hoverOffset: 4
-      }]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      cutout: '68%',
-      plugins: {
-        legend: {
-          position: 'bottom',
-          labels: { color: labelColor, boxWidth: 12, usePointStyle: true, pointStyle: 'circle' }
-        },
-        tooltip: { enabled: true }
-      }
-    }
-    }));
-  }
-
-  charts.push(new Chart(document.querySelector('#occlusionChart'), {
-    type: 'bar',
-    data: {
-      labels: ['Direct LVLM', 'Code synth', 'Inpaint + KP'],
-      datasets: [{
-        label: 'Occluded robustness 가설',
-        data: [48, 44, 72],
-        backgroundColor: ['#ef4444', '#f97316', '#14b8a6'],
-        borderRadius: 7,
-        maxBarThickness: 36
-      }]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      scales: {
-        y: {
-          min: 0,
-          max: 100,
-          ticks: { color: labelColor, callback: (value) => `${value}` },
-          grid: { color: gridColor }
-        },
-        x: {
-          ticks: { color: labelColor, maxRotation: 0 },
-          grid: { display: false }
-        }
-      },
-      plugins: {
-        legend: { display: false },
-        tooltip: {
-          callbacks: {
-            afterLabel: () => '실험 결과가 아니라 현재 working hypothesis'
-          }
-        }
-      }
-    }
-  }));
-}
-
 setupIndoorScene();
 setupRubikScene();
-setupCharts();
